@@ -14,7 +14,7 @@ class JumpToForeground():
 
     def keyDown(self, info):
         event = info["event"]
-        characters = event.charactersIgnoringModifiers()
+        characters = event.characters()
         modifierFlags = event.modifierFlags()
         if characters == "f":
             SetCurrentLayerByName("foreground")
