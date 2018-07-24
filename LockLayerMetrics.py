@@ -6,7 +6,8 @@ class LockLayerMetrics():
     Lock Layer Metrics
         -- Andy Clymer, github.com/andyclymer
         
-    Add as a RoboFont Startup Script to permanently apply all "foreground" width and left side bearing changes to all other layers
+    Add as a RoboFont Startup Script to permanently apply all "foreground" layer
+    width and left side bearing changes to all other layers.
     
     """
 
@@ -17,11 +18,13 @@ class LockLayerMetrics():
     
     def currentGlyphChanged(self, info):
         if self.glyph:
+            # If there was already a glyph, remove its observers
             self.glyph.removeObserver(self, "Glyph.WidthChanged")
             self.glyph.removeObserver(self, "Glyph.Changed")
         self.glyph = info["glyph"]
         if self.glyph:
-            # Only subscribe to notifications on the foregronud layer
+            # If there's a new glyph,
+            # only subscribe to notifications on the foregronud layer
             currentLayer = self.glyph.layerName
             if currentLayer == "foreground":
                 self.glyph.addObserver(self, "widthChanged", "Glyph.WidthChanged")
@@ -40,7 +43,8 @@ class LockLayerMetrics():
         else: self.prevLeftMargins.clear()
         
     def widthChanged(self, info):
-        # Every time the width changes, apply the difference of the last LSB in the list, and update the width
+        # Every time the width changes, apply the difference of the last LSB in the list, 
+        # which would be the previous LSB measurement and not the new measurement, and update the width
         if self.glyph:
             leftDiff = 0
             if len(self.prevLeftMargins):
