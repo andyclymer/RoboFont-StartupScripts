@@ -1,6 +1,10 @@
 from mojo.events import addObserver
 from AppKit import NSRect
 
+# RF Version Check
+from mojo.roboFont import version
+RF3 = version[0] > "1"
+
 class MaintainZoom(object):
     
     """
@@ -53,5 +57,6 @@ class MaintainZoom(object):
                 # Zoom to 100% if nothing has been saved for this font
                 view.zoomViewToAbsoluteScale_(1)
 
-MaintainZoom()
+if RF3:
+    MaintainZoom()
 
