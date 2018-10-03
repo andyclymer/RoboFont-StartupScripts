@@ -18,12 +18,14 @@ class ShowHideLayers():
         modifierFlags = event.modifierFlags()
         if characters == "h":
             f = CurrentFont()
-            # Get the current display status
-            currentDisplayOption = f.getLayer("background").getDisplayOption()["Stroke"]
-            # Set the oppoosite display status on all other layers:
-            for layerName in f.layerOrder:
-                if not layerName == "foreground":
-                    f.getLayer(layerName).setDisplayOption("Stroke", not currentDisplayOption)
+            if len(f.layerOrder) > 1:
+                nextLayer = f.layerOrder[1]
+                # Get the current display status for the first non-foreground layer
+                currentDisplayOption = f.getLayer(nextLayer).getDisplayOption()["Stroke"]
+                # Set the oppoosite display status on all other layers:
+                for layerName in f.layerOrder:
+                    if not layerName == "foreground":
+                        f.getLayer(layerName).setDisplayOption("Stroke", not currentDisplayOption)
 
 ShowHideLayers()
 
